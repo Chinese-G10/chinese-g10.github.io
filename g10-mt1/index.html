@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>G10 MT Review · 第一阶段复习手册</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --sw:212px;--bh:56px;
+  --bg:#f5f1e8;--sb:#fff;--border:#e0d4be;
+  --acc:#b05020;--surf:#fff;--surf2:#ede8de;
+  --txt:#1a1614;--txt2:#7a6a58;
+  --en:#1a3f6a;--py:#b05020;
+  --grn:#1e6e40;--grn-bg:#e8f5ee;
+  --red:#c0392b;--red-bg:#fdecea;
+  --fn:-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+}
+body{font-family:var(--fn);background:var(--bg);color:var(--txt);height:100vh;overflow:hidden;}
+#app{display:flex;height:100vh;overflow:hidden;}
+#sb{width:var(--sw);min-width:var(--sw);background:var(--sb);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
+.sb-head{padding:15px 13px 12px;border-bottom:1px solid var(--border);}
+.sb-tag{font-size:10px;font-weight:700;color:var(--acc);letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px;}
+.sb-title{font-size:13px;font-weight:700;line-height:1.35;}
+.sb-sub{font-size:10.5px;color:var(--txt2);margin-top:2px;}
+#sb-nav{overflow-y:auto;flex:1;padding:4px 0 12px;}
+#sb-nav::-webkit-scrollbar{width:3px;}
+#sb-nav::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+.sb-sec{padding:10px 13px 2px;font-size:9.5px;font-weight:700;color:var(--txt2);letter-spacing:.7px;text-transform:uppercase;}
+.sb-item{display:flex;align-items:center;gap:7px;padding:7px 13px;cursor:pointer;font-size:12px;color:var(--txt2);border-left:2px solid transparent;transition:all .15s;line-height:1.35;}
+.sb-item:hover{background:rgba(176,80,32,.06);color:var(--txt);}
+.sb-item.active{background:rgba(176,80,32,.1);color:var(--acc);border-left-color:var(--acc);font-weight:600;}
+.sb-char{font-size:13px;font-weight:700;flex-shrink:0;}
+.sb-badge{display:inline-block;font-size:9.5px;font-weight:700;padding:1px 5px;border-radius:8px;background:rgba(176,80,32,.12);color:var(--acc);margin-left:3px;}
+#stage{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative;}
+#slide{flex:1;overflow-y:auto;padding:34px 52px 24px;}
+#slide::-webkit-scrollbar{width:4px;}
+#slide::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+#nav{height:var(--bh);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:16px;background:var(--sb);}
+.nbtn{width:33px;height:33px;border:1px solid var(--border);background:var(--surf);color:var(--txt2);border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;}
+.nbtn:hover{border-color:var(--acc);color:var(--acc);}
+.nbtn:disabled{opacity:.28;cursor:not-allowed;}
+#ctr{font-size:12.5px;color:var(--txt2);min-width:50px;text-align:center;}
+
+/* headings */
+.p-tag{font-size:10px;font-weight:700;color:var(--acc);letter-spacing:.9px;text-transform:uppercase;margin-bottom:7px;}
+.p-h{font-size:27px;font-weight:800;line-height:1.2;margin-bottom:4px;}
+.p-sh{font-size:14px;color:var(--txt2);margin-bottom:18px;line-height:1.5;}
+.p-body{font-size:14.5px;line-height:1.75;}
+.note{background:#eef4fb;border-radius:9px;padding:12px 16px;font-size:13px;color:var(--en);line-height:1.65;margin-top:14px;}
+.warn{background:var(--red-bg);border-left:4px solid var(--red);border-radius:0 9px 9px 0;padding:12px 16px;font-size:13px;color:var(--red);line-height:1.65;margin:14px 0;font-weight:500;}
+.tip{background:rgba(176,80,32,.07);border-left:4px solid var(--acc);border-radius:0 9px 9px 0;padding:12px 16px;font-size:13px;line-height:1.7;margin-top:14px;}
+.kw{color:var(--acc);font-weight:700;}
+
+/* title */
+.t-h1{font-size:44px;font-weight:800;line-height:1.15;margin-bottom:8px;}
+.t-sub{font-size:17px;color:var(--txt2);margin-bottom:22px;}
+.t-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
+.t-chip{padding:5px 14px;background:rgba(176,80,32,.1);color:var(--acc);border-radius:18px;font-size:12.5px;font-weight:600;}
+.t-hint{font-size:12.5px;color:var(--txt2);}
+.t-hint kbd{padding:2px 7px;border:1px solid var(--border);border-radius:5px;background:var(--surf);font-size:11.5px;}
+
+/* tables */
+.tbl{width:100%;border-collapse:collapse;font-size:14px;margin:4px 0;}
+.tbl th{background:var(--surf2);padding:7px 12px;text-align:left;font-size:10.5px;font-weight:700;color:var(--txt2);letter-spacing:.5px;text-transform:uppercase;}
+.tbl td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:middle;line-height:1.55;}
+.tbl tr:last-child td{border-bottom:none;}
+.tbl .w{font-weight:700;color:var(--acc);font-size:16px;}
+.tbl .w2{font-weight:700;color:var(--grn);font-size:16px;}
+.tbl .e{font-size:12.5px;color:var(--en);}
+.tbl .n{font-size:12.5px;color:var(--txt2);}
+.tbl .p{font-size:13px;color:var(--py);font-weight:500;}
+.tbl.vt td{padding:5px 12px;}
+.tbl.vt .w{font-size:17px;}
+.tbl.vt td:first-child{width:130px;}
+.tbl.vt td:nth-child(2){width:150px;}
+
+/* word block grid */
+.wgrid{display:flex;flex-wrap:wrap;gap:9px;margin:6px 0 4px;}
+.wb{background:var(--surf);border:1.5px solid var(--acc);border-radius:9px;padding:8px 14px;text-align:center;}
+.wb-c{font-size:21px;font-weight:800;color:var(--acc);line-height:1.2;}
+.wb-p{font-size:10.5px;color:var(--txt2);margin-top:1px;}
+.wb-e{font-size:10.5px;color:var(--en);}
+
+/* pattern list */
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px;}
+.pcard{background:var(--surf);border:1px solid var(--border);border-radius:9px;padding:10px 13px;}
+.pf{font-size:14px;font-weight:600;line-height:1.4;}
+.pe{font-size:12px;color:var(--en);margin-top:3px;}
+.px{font-size:12.5px;color:var(--txt2);margin-top:5px;border-top:1px dashed var(--border);padding-top:5px;line-height:1.5;}
+
+/* text passage */
+.pass{background:var(--surf);border:1px solid var(--border);border-radius:11px;padding:16px 22px;font-size:15px;line-height:2.05;}
+.pass p{margin-bottom:9px;text-indent:2em;}
+.pass p:last-child{margin-bottom:0;}
+.pass .hl{color:var(--acc);font-weight:700;}
+.para-lbl{font-size:10px;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.6px;margin:14px 0 6px;}
+
+/* text (课文逐句) */
+.sent{background:var(--surf);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:9px;}
+.sent-cn{font-size:19px;line-height:1.75;margin-bottom:5px;}
+.sent-cn .hl{color:var(--acc);font-weight:700;}
+.sent-py{font-size:12.5px;color:var(--py);line-height:1.5;margin-bottom:3px;letter-spacing:.2px;}
+.sent-en{font-size:12.5px;color:var(--en);line-height:1.5;}
+.sent-n{float:right;font-size:11px;color:var(--txt2);font-weight:700;}
+/* optional hint */
+.hintbtn{display:inline-block;font-size:11.5px;color:var(--txt2);border:1px dashed var(--border);border-radius:14px;padding:3px 11px;cursor:pointer;margin-top:7px;user-select:none;}
+.hintbtn:hover{border-color:var(--acc);color:var(--acc);}
+.hinttext{display:none;font-size:12px;color:var(--en);margin-top:7px;line-height:1.5;}
+.hinttext.on{display:block;}
+.hintbtn.gone{display:none;}
+/* big instruction line */
+.instr{background:var(--surf);border:2px solid var(--acc);border-radius:10px;padding:12px 18px;margin-bottom:14px;font-size:20px;line-height:1.45;}
+.instr .big{font-size:34px;font-weight:900;color:var(--acc);letter-spacing:1px;vertical-align:-3px;}
+.instr-en{display:block;font-size:12.5px;color:var(--en);margin-top:5px;line-height:1.5;}
+/* mode bar */
+.modebar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px;padding:9px 13px;background:var(--surf2);border-radius:10px;}
+.mlbl{font-size:9.5px;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px;margin-right:2px;}
+.mbtn{padding:5px 14px;border:1px solid var(--border);border-radius:7px;background:var(--surf);color:var(--txt2);cursor:pointer;font-size:12.5px;font-weight:600;font-family:inherit;}
+.mbtn:hover{border-color:var(--acc);color:var(--acc);}
+.mbtn.on{background:var(--acc);color:#fff;border-color:var(--acc);}
+.rnd{font-size:12px;color:var(--txt2);margin-left:auto;}
+/* dictation */
+.dict{background:var(--surf);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:11px;}
+.dict-n{font-size:10px;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+.dict-py{font-size:16px;color:var(--py);font-weight:600;letter-spacing:.3px;line-height:1.6;margin-bottom:9px;}
+.dict-line{border-bottom:1.5px dashed var(--border);height:34px;margin-bottom:9px;}
+.dict-a{display:none;font-size:20px;line-height:1.6;background:var(--grn-bg);border-left:4px solid var(--grn);border-radius:0 8px 8px 0;padding:9px 14px;}
+.dict-a.on{display:block;}
+.dict-a .kw{color:var(--grn);}
+
+/* exercises */
+.ex{background:var(--surf);border:1px solid var(--border);border-radius:10px;padding:13px 16px;margin-bottom:9px;}
+.ex-n{font-size:10px;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+.ex-q{font-size:15px;line-height:1.75;margin-bottom:9px;}
+.ex-q .bl{display:inline-block;min-width:60px;border-bottom:2px solid var(--acc);margin:0 3px;}
+.opts{display:flex;flex-direction:column;gap:6px;}
+.opt{display:flex;align-items:flex-start;gap:8px;padding:7px 11px;border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:14px;transition:all .13s;}
+.opt:hover{border-color:var(--acc);background:rgba(176,80,32,.05);}
+.opt.sel{border-color:var(--acc);background:rgba(176,80,32,.13);font-weight:600;}
+.opt.ok{border-color:var(--grn)!important;background:var(--grn-bg)!important;}
+.opt.no{border-color:var(--red)!important;background:var(--red-bg)!important;}
+.opt .ol{font-weight:700;color:var(--acc);min-width:15px;}
+.opt.ok .ol{color:var(--grn)!important;}
+.opt.no .ol{color:var(--red)!important;}
+.fin{padding:7px 11px;border:1px solid var(--border);border-radius:8px;font-size:15px;font-family:inherit;background:#faf8f4;color:var(--txt);outline:none;min-width:130px;}
+.fin:focus{border-color:var(--acc);}
+.fin.ok{border-color:var(--grn);background:var(--grn-bg);}
+.fin.no{border-color:var(--red);background:var(--red-bg);}
+.msel{padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:15px;font-family:inherit;background:#faf8f4;color:var(--txt);}
+.msel.ok{border-color:var(--grn);background:var(--grn-bg);}
+.msel.no{border-color:var(--red);background:var(--red-bg);}
+.mrow{display:flex;align-items:center;gap:11px;padding:7px 0;border-bottom:1px solid var(--border);}
+.mrow:last-child{border-bottom:none;}
+.mw{font-size:17px;font-weight:700;min-width:96px;}
+.tfb{display:flex;gap:8px;}
+.tfbtn{padding:7px 22px;border:1px solid var(--border);border-radius:8px;background:var(--surf);cursor:pointer;font-size:15px;font-weight:600;font-family:inherit;color:var(--txt);}
+.tfbtn:hover{border-color:var(--acc);color:var(--acc);}
+.tfbtn.sel{border-color:var(--acc);background:rgba(176,80,32,.13);color:var(--acc);}
+.tfbtn.ok{border-color:var(--grn)!important;background:var(--grn-bg)!important;color:var(--grn)!important;}
+.tfbtn.no{border-color:var(--red)!important;background:var(--red-bg)!important;color:var(--red)!important;}
+.pool,.ans{display:flex;flex-wrap:wrap;gap:6px;min-height:36px;padding:7px 9px;border-radius:8px;margin-bottom:6px;}
+.pool{background:var(--surf2);border:1px dashed #c0b090;}
+.ans{background:rgba(176,80,32,.05);border:2px dashed var(--acc);}
+.ans.ok{border-color:var(--grn);background:var(--grn-bg);}
+.ans.no{border-color:var(--red);background:var(--red-bg);}
+.plbl{font-size:9.5px;font-weight:700;color:var(--txt2);width:100%;text-transform:uppercase;letter-spacing:.5px;}
+.chip{padding:5px 11px;background:var(--surf);border:1px solid #c0b090;border-radius:15px;cursor:pointer;font-size:14px;user-select:none;}
+.chip:hover{border-color:var(--acc);color:var(--acc);}
+.fb{margin-top:7px;font-size:12.5px;padding:6px 11px;border-radius:6px;display:none;line-height:1.6;}
+.fb.ok{display:block;background:var(--grn-bg);color:var(--grn);}
+.fb.no{display:block;background:var(--red-bg);color:var(--red);}
+.bank{display:flex;flex-wrap:wrap;gap:8px;padding:11px 15px;background:rgba(176,80,32,.06);border:2px dashed var(--acc);border-radius:10px;margin-bottom:14px;}
+.bank-w{font-size:15px;font-weight:700;color:var(--acc);}
+.bank-l{font-size:9.5px;font-weight:700;color:var(--txt2);width:100%;text-transform:uppercase;letter-spacing:.5px;}
+.btnrow{display:flex;gap:10px;margin-top:14px;align-items:center;}
+.cbtn{padding:9px 26px;background:var(--acc);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13.5px;font-weight:600;font-family:inherit;}
+.cbtn:hover{opacity:.85;}
+.cbtn.gh{background:transparent;color:var(--txt2);border:1px solid var(--border);}
+.cbtn.gh:hover{color:var(--acc);border-color:var(--acc);}
+.score{display:none;padding:9px 16px;border-radius:8px;font-size:13.5px;font-weight:600;}
+.score.on{display:block;}
+.score.good{background:var(--grn-bg);color:var(--grn);border:1px solid var(--grn);}
+.score.mid{background:rgba(176,80,32,.08);color:var(--acc);border:1px solid var(--acc);}
+/* ── phones: the sidebar becomes a drawer, or there is no room to read ── */
+#menu{display:none;align-items:center;gap:6px;padding:7px 13px;border:1px solid var(--border);
+  background:var(--surf);color:var(--txt2);border-radius:8px;cursor:pointer;font-size:13px;
+  font-family:inherit;font-weight:600;}
+#menu:hover{border-color:var(--acc);color:var(--acc);}
+#ovl{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:40;display:none;}
+#ovl.on{display:block;}
+@media(max-width:760px){
+  #sb{position:fixed;top:0;left:0;bottom:0;z-index:50;width:250px;min-width:250px;
+      transform:translateX(-100%);transition:transform .22s ease;box-shadow:3px 0 24px rgba(0,0,0,.3);}
+  #sb.open{transform:none;}
+  #menu{display:flex;}
+  #nav{gap:12px;}
+  #slide{padding:22px 16px 20px;}
+  .p-h{font-size:23px;}
+  .p-sh{font-size:13px;}
+  .tbl{font-size:13px;}
+  .tbl th,.tbl td{padding:6px 8px;}
+  .tbl.vt td:first-child{width:auto;}
+  .tbl.vt td:nth-child(2){width:auto;}
+  .pgrid{grid-template-columns:1fr;}
+  .modebar{gap:6px;padding:8px 10px;}
+  .mbtn{font-size:12px;padding:5px 10px;}
+  .rnd{margin-left:0;width:100%;}
+  .instr{font-size:17px;padding:10px 13px;}
+  .instr .big{font-size:28px;}
+  .sent-cn{font-size:17px;}
+  .ex-q{font-size:14px;}
+  .fin{width:100%;}
+}
+@media(prefers-color-scheme:dark){
+  :root{--bg:#1a1510;--sb:#221d17;--surf:#26211a;--surf2:#2e2820;--border:#3d342a;--txt:#f0e8d8;--txt2:#a09080;--en:#7eb3e8;--grn-bg:#1a3528;--grn:#4dbb7a;--red-bg:#2d1a14;--red:#e08070;}
+  .fin,.msel{background:#1f1a14;}
+  .note{background:#1a2535;}
+}
+</style>
+</head>
+<body>
+<div id="ovl" onclick="toggleSb(false)"></div>
+<div id="app">
+<aside id="sb">
+  <div class="sb-head">
+    <div class="sb-tag">G10 · 26-27</div>
+    <div class="sb-title">MT 第一阶段复习手册</div>
+    <div class="sb-sub">Self-study · Lesson 1 + Lesson 2</div>
+  </div>
+  <nav id="sb-nav"></nav>
+</aside>
+<main id="stage">
+  <div id="slide"></div>
+  <div id="nav">
+    <button id="menu" onclick="toggleSb()">☰ Contents</button>
+    <button class="nbtn" id="bprev" onclick="go(-1)">&#8249;</button>
+    <span id="ctr"></span>
+    <button class="nbtn" id="bnext" onclick="go(1)">&#8250;</button>
+  </div>
+</main>
+</div>
+<script>
+/* ══════════ SLIDES ══════════ */
+const SLIDES=[
+
+{type:'title'},
+
+/* ─── OVERVIEW ─── */
+{type:'info', sec:'Overview', nav:'📋', navlbl:'How to use this',
+ tag:'Start here', h:'How this handbook works', sh:'Each checkpoint has two parts: what you need to know, then about twice as many practice questions as the exam will ask.',
+ body:`<table class="tbl">
+  <tr><th>Checkpoint</th><th>The real paper</th><th>Form</th><th>All Q</th><th>Exam mode</th></tr>
+  <tr><td class="w">1 汉字</td><td class="n">看拼音写句子</td><td class="e">2 Q · pinyin only — nothing to choose from</td><td class="e">5</td><td class="n">—</td></tr>
+  <tr><td class="w">2 词汇</td><td class="n">选词填空</td><td class="e">5 Q · <b>6 words given, choose 5</b></td><td class="e">10</td><td class="e">5 per round</td></tr>
+  <tr><td class="w">2 词汇</td><td class="n">配对题 · 反义词</td><td class="e">5 Q · <b>8 words given, choose 5</b></td><td class="e">10</td><td class="e">5 per round</td></tr>
+  <tr><td class="w">3 句子</td><td class="n">组句</td><td class="e">3 Q</td><td class="e">8</td><td class="e">3 per round</td></tr>
+  <tr><td class="w">4 课文</td><td class="n">选择题</td><td class="e">5 Q · all from the two texts</td><td class="e">14</td><td class="e">5 per round</td></tr>
+  <tr><td class="w">5 阅读</td><td class="n">阅读理解</td><td class="e">7 Q · 4 true/false + 3 multiple choice</td><td class="e">7</td><td class="n">already exam size</td></tr>
+ </table>`,
+ tip:'<b>Two ways to practise.</b> <b>All questions</b> — work through everything once, in order, so nothing is left unrevised. <b>Exam mode</b> — the page draws the number of questions the real paper asks, at random. Press <b>↻ New round</b> for a fresh draw and do it two or three times, like a mock exam.<br><br><b>Why practice feels harder than the exam:</b> the real paper gives you 6 words for 5 blanks, and 8 words for 5 matches — only a few spare. In Exam mode this handbook gives you about <b>twice as many options</b>. Train hard here and the paper will feel easy.',
+ warn:'The practice questions here are <b>not</b> the exam questions. They cover the same words and the same patterns, but the wording is different on purpose. Learn the word, not the sentence.',
+ note:'Type your answers, then press <b>Check answers</b> at the bottom of each practice page — wrong answers show you the correct one. Hints stay hidden until you press <b>💡 Show hint</b>, so try to answer first. Press <kbd>→</kbd> and <kbd>←</kbd> to move between pages.'},
+
+/* ─── CHECKPOINT 1 ─── */
+{type:'info', sec:'① 汉字关 Characters', nav:'词块', navlbl:'12 word blocks',
+ tag:'Checkpoint 1 · What to know', h:'The 12 word blocks', sh:'Section 1 gives you pinyin only — no word bank, no options. These 12 blocks are what the sentences are built from.',
+ body:`<div class="wgrid">
+  <div class="wb"><div class="wb-c">及时</div><div class="wb-p">jí shí</div><div class="wb-e">in time</div></div>
+  <div class="wb"><div class="wb-c">沟通</div><div class="wb-p">gōu tōng</div><div class="wb-e">communicate</div></div>
+  <div class="wb"><div class="wb-c">谈心</div><div class="wb-p">tán xīn</div><div class="wb-e">heart-to-heart</div></div>
+  <div class="wb"><div class="wb-c">解决</div><div class="wb-p">jiě jué</div><div class="wb-e">to solve</div></div>
+  <div class="wb"><div class="wb-c">容易</div><div class="wb-p">róng yì</div><div class="wb-e">easy</div></div>
+  <div class="wb"><div class="wb-c">关系</div><div class="wb-p">guān xi</div><div class="wb-e">relationship</div></div>
+  <div class="wb"><div class="wb-c">兄长</div><div class="wb-p">xiōng zhǎng</div><div class="wb-e">elder brother</div></div>
+  <div class="wb"><div class="wb-c">既…又…</div><div class="wb-p">jì… yòu…</div><div class="wb-e">both… and…</div></div>
+  <div class="wb"><div class="wb-c">负责</div><div class="wb-p">fù zé</div><div class="wb-e">responsible for</div></div>
+  <div class="wb"><div class="wb-c">幸运</div><div class="wb-p">xìng yùn</div><div class="wb-e">lucky</div></div>
+  <div class="wb"><div class="wb-c">苦恼</div><div class="wb-p">kǔ nǎo</div><div class="wb-e">worries</div></div>
+  <div class="wb"><div class="wb-c">商量</div><div class="wb-p">shāng liang</div><div class="wb-e">discuss with</div></div>
+ </div>`,
+ tip:'<b>How to memorise:</b> cover the characters, look only at the pinyin, and write each block from memory. Get the blocks right first — only then try full sentences. Rewrite every wrong character three times.'},
+
+{type:'text', sec:'', nav:'课文', navlbl:'Lesson 2 text 课文',
+ tag:'Checkpoint 1 · Your memorising range', h:'第二课《我的哥哥》 · 第 2–4 段',
+ sh:'This is the range for Section 1. Copy it out, read it aloud, then write it from memory. The orange words are your 12 blocks.',
+ sents:[
+  {cn:'哥哥比我大十岁。', py:'Gē ge bǐ wǒ dà shí suì.', en:'My brother is ten years older than me.'},
+  {cn:'他<span class="hl">负责</span>管我，他好像是我的“小爸爸”。', py:'Tā fù zé guǎn wǒ, tā hǎo xiàng shì wǒ de "xiǎo bà ba".', en:'He is responsible for looking after me — he is like my "little dad".'},
+  {cn:'哥哥管我管得挺严的，比如哪些事儿我可以做，哪些事儿我不可以做，他都要管。', py:'Gē ge guǎn wǒ guǎn de tǐng yán de, bǐ rú nǎ xiē shìr wǒ kě yǐ zuò, nǎ xiē shìr wǒ bù kě yǐ zuò, tā dōu yào guǎn.', en:'He is quite strict with me — what I may and may not do, he has a say in all of it.'},
+  {cn:'他时常提醒我要好好儿读书，交朋友时要小心，因为好的朋友会给我带来正面的影响，不好的朋友会带来负面的影响。', py:'Tā shí cháng tí xǐng wǒ yào hǎo hāor dú shū, jiāo péng you shí yào xiǎo xīn, yīn wèi hǎo de péng you huì gěi wǒ dài lái zhèng miàn de yǐng xiǎng, bù hǎo de péng you huì dài lái fù miàn de yǐng xiǎng.', en:'He often reminds me to study properly and to be careful about the friends I make, because good friends bring a positive influence and bad ones a negative influence.'},
+  {cn:'我们俩<span class="hl">关系</span>很好，他<span class="hl">既</span>是我的<span class="hl">兄长</span>，<span class="hl">又</span>是我的知心朋友。', py:'Wǒ men liǎ guān xi hěn hǎo, tā jì shì wǒ de xiōng zhǎng, yòu shì wǒ de zhī xīn péng you.', en:'The two of us get on very well — he is both my elder brother and my closest friend.'},
+  {cn:'什么事儿我都喜欢跟他<span class="hl">商量</span>。', py:'Shén me shìr wǒ dōu xǐ huan gēn tā shāng liang.', en:'I like to talk everything over with him.'},
+  {cn:'如果我有<span class="hl">苦恼</span>，我会第一时间告诉他。', py:'Rú guǒ wǒ yǒu kǔ nǎo, wǒ huì dì yī shí jiān gào su tā.', en:'If something is troubling me, he is the first person I tell.'},
+  {cn:'我们有时候也会吵架，但是我们<span class="hl">及时沟通</span>、<span class="hl">谈心</span>，问题很<span class="hl">容易</span>就<span class="hl">解决</span>了。', py:'Wǒ men yǒu shí hou yě huì chǎo jià, dàn shì wǒ men jí shí gōu tōng, tán xīn, wèn tí hěn róng yì jiù jiě jué le.', en:'Sometimes we do argue, but we talk it through promptly and openly, and the problem is easily solved.'},
+  {cn:'我真<span class="hl">幸运</span>，有一个这么好的哥哥。', py:'Wǒ zhēn xìng yùn, yǒu yí ge zhè me hǎo de gē ge.', en:'I really am lucky to have such a good brother.'},
+ ],
+ note:'Every sentence Section 1 can ask comes from somewhere in this range.'},
+
+{type:'text', sec:'', nav:'课文', navlbl:'Lesson 1 text 课文',
+ tag:'Lesson 1 · For revision', h:'第一课《中国的家庭》',
+ sh:'Section 4 asks about this text. You do not have to write it from memory — but you do need to know what it says.',
+ sents:[
+  {cn:'中国的传统家庭<span class="hl">通常</span>是大家庭，有的大家庭三四<span class="hl">代</span>人生活在一起。', py:'Zhōng guó de chuán tǒng jiā tíng tōng cháng shì dà jiā tíng, yǒu de dà jiā tíng sān sì dài rén shēng huó zài yì qǐ.', en:'Traditional Chinese families are usually large families; in some, three or four generations live together.'},
+  {cn:'在<span class="hl">这样</span>的大家庭里，长辈帮助<span class="hl">晚辈</span>，<span class="hl">例如</span>帮<span class="hl">子女</span><span class="hl">带</span>孩子；<span class="hl">小辈</span><span class="hl">孝顺</span>、<span class="hl">照顾</span>长辈。', py:'Zài zhè yàng de dà jiā tíng lǐ, zhǎng bèi bāng zhù wǎn bèi, lì rú bāng zǐ nǚ dài hái zi; xiǎo bèi xiào shùn, zhào gù zhǎng bèi.', en:'In such a family the elders help the younger generation — for example helping their children raise the grandchildren; the younger ones show filial respect and look after the elders.'},
+  {cn:'<span class="hl">如今</span>，这样的大家庭很少见了。', py:'Rú jīn, zhè yàng de dà jiā tíng hěn shǎo jiàn le.', en:'Nowadays such large families are rarely seen.'},
+  {cn:'小辈和长辈一般不住在一起，因为他们<span class="hl">各自</span>有不同的生活<span class="hl">方式</span>。', py:'Xiǎo bèi hé zhǎng bèi yì bān bú zhù zài yì qǐ, yīn wèi tā men gè zì yǒu bù tóng de shēng huó fāng shì.', en:'The younger and older generations generally do not live together, because each has their own way of life.'},
+  {cn:'但是，他们<span class="hl">还是</span>会互相关心、互相帮助。', py:'Dàn shì, tā men hái shi huì hù xiāng guān xīn, hù xiāng bāng zhù.', en:'Even so, they still care for and help each other.'},
+  {cn:'<span class="hl">以</span>我们家<span class="hl">为例</span>，爷爷、奶奶跟我们住在同一个小区。', py:'Yǐ wǒ men jiā wéi lì, yé ye, nǎi nai gēn wǒ men zhù zài tóng yí ge xiǎo qū.', en:'Taking my family as an example, my grandparents live in the same neighbourhood as us.'},
+  {cn:'我小时候，爷爷、奶奶经常来我家帮忙。', py:'Wǒ xiǎo shí hou, yé ye, nǎi nai jīng cháng lái wǒ jiā bāng máng.', en:'When I was little, my grandparents often came to help out at our home.'},
+  {cn:'现在他们<span class="hl">年纪</span>大了，有时候生病，我们就<span class="hl">陪</span>他们去<span class="hl">看病</span>，<span class="hl">照看</span>他们。', py:'Xiàn zài tā men nián jì dà le, yǒu shí hou shēng bìng, wǒ men jiù péi tā men qù kàn bìng, zhào kàn tā men.', en:'Now they are getting on in years and sometimes fall ill, so we go with them to see the doctor and look after them.'},
+  {cn:'我觉得长辈和小辈<span class="hl">分开</span>住也挺好的。', py:'Wǒ jué de zhǎng bèi hé xiǎo bèi fēn kāi zhù yě tǐng hǎo de.', en:'I think it is quite good for the older and younger generations to live apart.'},
+  {cn:'这样，大家都有各自的空间。', py:'Zhè yàng, dà jiā dōu yǒu gè zì de kōng jiān.', en:'That way everyone has their own space.'},
+  {cn:'如果长辈和小辈住得近，不但可以经常见面，还能互相帮忙、照顾。', py:'Rú guǒ zhǎng bèi hé xiǎo bèi zhù de jìn, bú dàn kě yǐ jīng cháng jiàn miàn, hái néng hù xiāng bāng máng, zhào gù.', en:'If they live close by, they can not only meet often but also help and look after each other.'},
+ ],
+ note:'The last three sentences are the writer\'s opinion — Section 4 asks about exactly this: 他觉得分开住<b>也挺好的</b>，因为大家都有各自的空间。'},
+
+{type:'dictation', sec:'', nav:'✏️', navlbl:'Practice · 5 sentences',
+ tag:'Checkpoint 1 · Practice', h:'Write the characters', sh:'Read the pinyin, write the sentence on paper, then tap Show answer to check yourself. Do this on paper — typing will not train your hand.',
+ items:[
+  {py:'Tā fù zé guǎn wǒ de shēng huó hé xué xí，wǒ zhēn xìng yùn。',
+   cn:'他<span class="kw">负责</span>管我的生活和学习，我真<span class="kw">幸运</span>。'},
+  {py:'Rú guǒ yǒu kǔ nǎo，dōu yào gēn tā shāng liang。',
+   cn:'如果有<span class="kw">苦恼</span>，都要跟他<span class="kw">商量</span>。'},
+  {py:'Wǒ men liǎ guān xi hěn hǎo，tā jì shì xiōng zhǎng yòu shì péng you。',
+   cn:'我们俩<span class="kw">关系</span>很好，他<span class="kw">既</span>是<span class="kw">兄长</span><span class="kw">又</span>是朋友。'},
+  {py:'Wǒ men jí shí gōu tōng、tán xīn，wèn tí hěn róng yì jiù jiě jué le。',
+   cn:'我们<span class="kw">及时沟通</span>、<span class="kw">谈心</span>，问题很<span class="kw">容易</span>就<span class="kw">解决</span>了。'},
+  {py:'Wǒ zhēn xìng yùn，yǒu yí ge zhè me hǎo de gē ge。',
+   cn:'我真<span class="kw">幸运</span>，有一个这么好的哥哥。'},
+ ],
+ note:'The exam will ask fewer sentences than this — but you do not know which ones. Practise all five.'},
+
+/* ─── CHECKPOINT 2 ─── */
+{type:'info', sec:'② 词汇关 Vocabulary', nav:'反义', navlbl:'Antonyms',
+ tag:'Checkpoint 2 · What to know', h:'Antonyms 反义词', sh:'The matching section hides synonyms among the options. Learn which word is the opposite and which one only looks like an answer.',
+ body:`<table class="tbl">
+  <tr><th>Word</th><th>Opposite</th><th>Meaning</th><th>Trap option</th></tr>
+  <tr><td class="w">生气</td><td class="w2">高兴</td><td class="e">angry ↔ happy</td><td class="n">愤怒 = also angry</td></tr>
+  <tr><td class="w">负面</td><td class="w2">正面</td><td class="e">negative ↔ positive (influence)</td><td class="n">—</td></tr>
+  <tr><td class="w">消极</td><td class="w2">积极</td><td class="e">passive ↔ proactive (attitude)</td><td class="n">—</td></tr>
+  <tr><td class="w">准时</td><td class="w2">迟到</td><td class="e">on time ↔ late</td><td class="n">—</td></tr>
+  <tr><td class="w">幸运</td><td class="w2">不幸</td><td class="e">lucky ↔ unlucky</td><td class="n">好运 = also lucky</td></tr>
+  <tr><td class="w">说好</td><td class="w2">变卦</td><td class="e">agree ↔ go back on it</td><td class="n">约定 = also agree</td></tr>
+  <tr><td class="w">说到做到</td><td class="w2">变卦</td><td class="e">keep your word ↔ break it</td><td class="n">—</td></tr>
+  <tr><td class="w">小心</td><td class="w2">粗心</td><td class="e">careful ↔ careless</td><td class="n">—</td></tr>
+  <tr><td class="w">长辈</td><td class="w2">晚辈／小辈</td><td class="e">elder ↔ younger generation</td><td class="n">—</td></tr>
+  <tr><td class="w">分开</td><td class="w2">一起</td><td class="e">apart ↔ together</td><td class="n">—</td></tr>
+ </table>`,
+ warn:'Before you answer, read the instruction again. Does it want the <b>opposite</b> (反义词) or the <b>same</b> meaning (近义词)? Most lost marks come from answering the wrong question.'},
+
+{type:'info', sec:'', nav:'近义', navlbl:'Synonyms',
+ tag:'Checkpoint 2 · What to know', h:'Synonyms 近义词', sh:'These pairs mean nearly the same thing. What separates them is where you use them.',
+ body:`<table class="tbl">
+  <tr><th>Pair</th><th>What separates them</th></tr>
+  <tr><td class="w">说好 ≈ 约定</td><td class="n">说好 = a casual spoken agreement · 约定 = formal, feels like a promise</td></tr>
+  <tr><td class="w">例如 ≈ 比如</td><td class="n">例如 = written style (your textbook uses it) · 比如 = spoken style</td></tr>
+  <tr><td class="w">晚辈 ≈ 小辈</td><td class="n">晚辈 = formal · 小辈 = spoken. Both are correct</td></tr>
+  <tr><td class="w">兄长 ≈ 哥哥</td><td class="n">兄长 = written and formal, usually paired with 既……又……</td></tr>
+  <tr><td class="w">照顾 ≈ 照看</td><td class="n">Almost identical. Both appear in the Lesson 1 text</td></tr>
+  <tr><td class="w">正面 ≈ 积极<br>负面 ≈ 消极</td><td class="n">正面／负面 describe an <b>outward influence</b> · 积极／消极 describe an <b>inner attitude</b></td></tr>
+ </table>`,
+ note:'⚠ 正面 and 负面 can only sit in front of a noun. ❌ 这件事很负面 → ✓ 这件事有负面的影响, or use 消极 instead: 他这个人很消极.'},
+
+{type:'ex', sec:'', nav:'✏️', navlbl:'Practice · 选词填空 ×10',
+ tag:'Checkpoint 2 · Practice', h:'选词填空 · Choose the right word', sh:'Type the word that fits the sentence.', examN:5, bankTotal:10,
+ bank:['年纪','说到做到','分开','知心','各自','生气','苦恼','商量','及时','解决','负责'],
+ exs:[
+  {type:'fill', q:'我们班的同学＿＿＿有不同的爱好。', ans:'各自', why:'<b>各自</b> = each · their own. 同学们 is plural, so every one of them has a different hobby. 各自 is normally followed by 有: 各自有不同的……', hint:'each person has their own —'},
+  {type:'fill', q:'我和哥哥＿＿＿住，他在马尼拉工作。', ans:'分开', why:'<b>分开</b> = apart · separately. 分开住 = to live apart. The opposite is 住在一起. Here they live in different cities, so it must be 分开.', hint:'we do not live together —'},
+  {type:'fill', q:'爷爷＿＿＿大了，走路要人扶着。', ans:'年纪', why:'<b>年纪</b> = a person’s age. 年纪大了 is a set phrase — it means someone is getting on in years. It always goes with 大了, never with 高了.', hint:'he is getting on in years —'},
+  {type:'fill', q:'姐姐非常＿＿＿，因为我弄坏了她的书。', ans:'生气', why:'<b>生气</b> = to be angry. 非常 + adjective. Careful: 生气 = angry, 生病 = to get sick. They look similar but are completely different.', hint:'she was really not happy with me —'},
+  {type:'fill', q:'答应别人的事，一定要＿＿＿＿。', ans:'说到做到', why:'<b>说到做到</b> = to keep your word. 答应别人的事 = something you promised someone. Following it through is 说到做到. The opposite is 变卦.', hint:'do what you promised to do —'},
+  {type:'fill', q:'我心里有＿＿＿的时候，就去找我的好朋友。', ans:'苦恼', why:'<b>苦恼</b> = worries · distress. The set phrase is 有苦恼 = to have something troubling you. 苦恼 is what is inside your heart, not a problem outside.', hint:'when something is troubling me —'},
+  {type:'fill', q:'这件事我要先跟妈妈＿＿＿一下。', ans:'商量', why:'<b>商量</b> = to talk something over. The pattern is 跟／和 + person + 商量. 商量一下 = to have a quick word about it.', hint:'talk it over with her first —'},
+  {type:'fill', q:'有问题就要＿＿＿说出来，不要等。', ans:'及时', why:'<b>及时</b> = promptly · without delay. 及时 is an adverb, so it goes in front of the verb: 及时说、及时沟通、及时解决. The sentence says 不要等, which is the clue.', hint:'say it promptly, without delay —'},
+  {type:'fill', q:'我们一起想办法，很快就把问题＿＿＿了。', ans:'解决', why:'<b>解决</b> = to solve. 解决问题 is the standard pairing. 想办法 → 解决 — you think of a way, and the problem gets solved.', hint:'the problem was sorted out —'},
+  {type:'fill', q:'他是我的＿＿＿朋友，什么话我都可以跟他说。', ans:'知心', why:'<b>知心</b> = close · understanding. 知心朋友 = a friend you can tell anything to. 知心 only works in front of a noun; you cannot say 他很知心.', hint:'a friend you can tell anything to —'},
+ ],
+ note:'One word is left over on purpose: <b>负责</b>. It is not tested here, but it IS one of your 12 character blocks — make sure you can write it.'},
+
+{type:'ex', sec:'', nav:'✏️', navlbl:'Practice · 配对 ×10',
+ tag:'Checkpoint 2 · Practice', h:'配对题 · Match the opposites', sh:'', instr:'找出以下词语的<span class="big">反义词</span><span class="instr-en">Find the <b>OPPOSITE</b> of each word — <b>NOT</b> the word that means the same thing. Some options are synonyms put there to catch you out.</span>', examN:5, moptsTotal:10,
+ exs:[
+  {type:'match', w:'生气', ans:'高兴', why:'愤怒 also means angry — that is a synonym, not an antonym.'},
+  {type:'match', w:'负面', ans:'正面', why:'负面的影响 ↔ 正面的影响.'},
+  {type:'match', w:'准时', ans:'迟到', why:'Arriving at the agreed time ↔ arriving late.'},
+  {type:'match', w:'幸运', ans:'不幸', why:'好运 also means lucky — that is a synonym, not an antonym.'},
+  {type:'match', w:'说好', ans:'变卦', why:'约定 also means to agree — that is a synonym, not an antonym.'},
+  {type:'match', w:'积极', ans:'消极', why:'Used for an inner attitude, not an outward influence.'},
+  {type:'match', w:'小心', ans:'粗心', why:'小心 is a compliment; 粗心 is a criticism.'},
+  {type:'match', w:'长辈', ans:'晚辈', why:'小辈 is also accepted in speech — same meaning as 晚辈.'},
+  {type:'match', w:'分开', ans:'一起', why:'分开住 ↔ 住在一起.'},
+  {type:'match', w:'说到做到', ans:'变卦', why:'Keeping your word ↔ backing out of it.'},
+ ],
+ mopts:['高兴','正面','迟到','不幸','变卦','消极','粗心','晚辈','一起','愤怒','好运','约定','认真']},
+
+/* ─── CHECKPOINT 3 ─── */
+{type:'info', sec:'③ 句子关 Word order', nav:'句式', navlbl:'11 patterns',
+ tag:'Checkpoint 3 · What to know', h:'The 11 sentence patterns', sh:'Section 5 is not about what sounds nice. Spot which pattern the words belong to, then fill the formula.',
+ body:`<div class="pgrid">
+  <div class="pcard"><div class="pf">…给…带来<span class="kw">正面／负面</span>的影响</div><div class="pe">X brings a positive/negative influence to Y</div><div class="px">好的朋友会给我带来正面的影响。</div></div>
+  <div class="pcard"><div class="pf"><span class="kw">各自</span>（的）＋ Noun</div><div class="pe">each / one's own</div><div class="px">他们各自有不同的生活方式。</div></div>
+  <div class="pcard"><div class="pf">Subject ＋ <span class="kw">好像</span>（是）＋ Noun</div><div class="pe">seems to be / is like</div><div class="px">他好像是我的"小爸爸"。</div></div>
+  <div class="pcard"><div class="pf"><span class="kw">例如</span> ＋ an example</div><div class="pe">for example (comes BEFORE the example)</div><div class="px">长辈帮助晚辈，例如帮子女带孩子。</div></div>
+  <div class="pcard"><div class="pf"><span class="kw">有时候</span>…<span class="kw">也会</span>…</div><div class="pe">sometimes … also …</div><div class="px">我们有时候也会吵架。</div></div>
+  <div class="pcard"><div class="pf">Subject ＋ <span class="kw">通常</span> ＋ Verb</div><div class="pe">usually</div><div class="px">中国的传统家庭通常是大家庭。</div></div>
+  <div class="pcard"><div class="pf"><span class="kw">以</span>…<span class="kw">为例</span></div><div class="pe">taking … as an example</div><div class="px">以我们家为例，爷爷奶奶住在同一个小区。</div></div>
+  <div class="pcard"><div class="pf">Subject ＋ <span class="kw">陪</span> ＋ Person ＋ Verb</div><div class="pe">to accompany someone to do something</div><div class="px">我们陪他们去看病。</div></div>
+  <div class="pcard"><div class="pf">Subject ＋ <span class="kw">还是</span> ＋ Verb</div><div class="pe">still (nothing has changed)</div><div class="px">他们还是会互相关心。</div></div>
+  <div class="pcard"><div class="pf">A ＋ <span class="kw">比</span> ＋ B ＋ Adj. ＋ Amount</div><div class="pe">A is [adj] than B by [amount]</div><div class="px">哥哥比我大十岁。 ❌ 哥哥比我十岁大</div></div>
+  <div class="pcard"><div class="pf">Subject ＋ <span class="kw">好好儿</span> ＋ Verb</div><div class="pe">to do something properly</div><div class="px">我要好好儿读书。</div></div>
+ </div>`},
+
+{type:'ex', sec:'', nav:'✏️', navlbl:'Practice · 组句 ×8',
+ tag:'Checkpoint 3 · Practice', h:'组句 · Put the words in order', sh:'Tap the words in the correct order. Tap a word in your answer to take it back.', examN:3,
+ exs:[
+  {type:'reorder', words:['会','认真读书','正面的影响。','给将来','带来'], ans:'认真读书会给将来带来正面的影响。', why:'Pattern: [who／what] ＋ 给 ＋ [target] ＋ 带来 ＋ 正面／负面的影响. 认真读书 is the doer and 将来 is the target, so 给将来 sits between them. 会 goes in front of 给, and 影响 is always last.'},
+  {type:'reorder', words:['兴趣。','都有','我们','各自的'], ans:'我们都有各自的兴趣。', why:'Pattern: Subject ＋ 都有 ＋ 各自的 ＋ Noun. 各自的 must sit directly in front of the noun it describes （各自的兴趣）. It can never start the sentence.'},
+  {type:'reorder', words:['我们的','这位老师','是','好像','朋友。'], ans:'这位老师好像是我们的朋友。', why:'Pattern: Subject ＋ 好像是 ＋ Noun. Keep 好像 and 是 together when a noun follows. The possessive 我们的 belongs to the noun AFTER 是 — 我们的朋友 — not to the subject.'},
+  {type:'reorder', words:['陪他们去看病。','会照顾长辈，','晚辈','例如'], ans:'晚辈会照顾长辈，例如陪他们去看病。', why:'Pattern: [statement]，例如 ＋ [example]. 例如 introduces the example, so it comes after the comma and in front of 陪他们去看病 — never at the very start of this sentence.'},
+  {type:'reorder', words:['生气。','有时候','我','也会'], ans:'我有时候也会生气。', alts:['有时候我也会生气。'], why:'Pattern: 有时候 ＋ Subject ＋ 也会 ＋ Verb. 也会 must stay together and sit right in front of the verb. 有时候 may go before or after 我 — both are correct.'},
+  {type:'reorder', words:['吃晚饭。','通常','我们家','在七点'], ans:'我们家通常在七点吃晚饭。', why:'Pattern: Subject ＋ 通常 ＋ [time] ＋ Verb. Chinese word order runs subject → adverb → time → verb, so 通常 comes before 在七点, and the verb goes last.'},
+  {type:'reorder', words:['去看病。','我','妈妈','陪'], ans:'我陪妈妈去看病。', alts:['妈妈陪我去看病。'], why:'Pattern: Subject ＋ 陪 ＋ Person ＋ Verb. Both orders are correct here — but they mean different things: 我陪妈妈 = I go with Mum · 妈妈陪我 = Mum goes with me.'},
+  {type:'reorder', words:['两岁。','大','姐姐','比我'], ans:'姐姐比我大两岁。', why:'Pattern: A ＋ 比 ＋ B ＋ Adjective ＋ Amount. The amount always comes last. ❌ 姐姐比我两岁大.'},
+ ]},
+
+/* ─── CHECKPOINT 4 ─── */
+{type:'info', sec:'④ 课文关 The texts', nav:'称谓', navlbl:'Family titles',
+ tag:'Checkpoint 4 · What to know', h:'Family titles 亲属称谓', sh:'One rule carries most of this section: 堂 = father\'s side, 表 = mother\'s side.',
+ body:`<table class="tbl">
+  <tr><th>Relative</th><th>You say</th><th>Relative</th><th>You say</th></tr>
+  <tr><td class="n">Father's father</td><td class="w">爷爷／祖父</td><td class="n">Mother's father</td><td class="w">外公／姥爷</td></tr>
+  <tr><td class="n">Father's mother</td><td class="w">奶奶／祖母</td><td class="n">Mother's mother</td><td class="w">外婆／姥姥</td></tr>
+  <tr><td class="n">Father's <b>sister</b></td><td class="w">姑姑</td><td class="n">Mother's <b>sister</b></td><td class="w">阿姨／姨妈</td></tr>
+  <tr><td class="n">Father's older brother</td><td class="w">伯伯</td><td class="n">Father's younger brother</td><td class="w">叔叔</td></tr>
+  <tr><td class="n">Mother's brother</td><td class="w">舅舅</td><td class="n">Your own children</td><td class="w">子女</td></tr>
+  <tr><td class="n">Cousins — father's side</td><td class="w">堂兄弟姐妹</td><td class="n">Cousins — mother's side</td><td class="w">表兄弟姐妹</td></tr>
+  <tr><td class="n">The older generation</td><td class="w">长辈</td><td class="n">The younger generation</td><td class="w">晚辈／小辈</td></tr>
+ </table>`,
+ tip:'<b>From Lesson 1 《中国的家庭》, remember these three points:</b><br>· 长辈帮助晚辈，例如帮子女带孩子 — elders help by raising the grandchildren<br>· 长辈年纪大了，晚辈陪他们去看病、照看他们 — this is what 孝顺 means in practice<br>· 作者觉得长辈和小辈<b>分开住也挺好的</b>，因为大家都有各自的空间'},
+
+{type:'ex', sec:'', nav:'✏️', navlbl:'Practice · 选择题 ×14',
+ tag:'Checkpoint 4 · Practice', h:'选择题 · Multiple choice', sh:'Family titles, word meanings and text content — everything here comes from the two lessons.', examN:5,
+ exs:[
+  {type:'mc', q:'爸爸的妹妹，你应该叫她什么？', opts:['堂姐','姑姑','阿姨','舅舅'], ans:1, why:'Father\'s sister — older or younger — is 姑姑. 阿姨 is your mother\'s sister.'},
+  {type:'mc', q:'妈妈的哥哥，你应该叫他什么？', opts:['伯伯','叔叔','舅舅','姑姑'], ans:2, why:'Mother\'s brother is 舅舅. 伯伯 and 叔叔 are your father\'s brothers.'},
+  {type:'mc', q:'爸爸的弟弟的儿子，你应该叫他什么？', opts:['表哥／表弟','堂哥／堂弟','舅舅','子女'], ans:1, why:'Father\'s side = 堂. Mother\'s side = 表.'},
+  {type:'mc', q:'中国的传统家庭中，辈分小的那一代人叫做（　　）', opts:['长辈','晚辈','祖父母','年纪'], ans:1, why:'晚辈 (or 小辈) is the younger generation; 长辈 is the older one.'},
+  {type:'mc', q:'“约定”的近义词是（　　）', opts:['变卦','说好','粗心','迟到'], ans:1, why:'说好 ≈ 约定 — both mean settling something in advance. 变卦 is the opposite.'},
+  {type:'mc', q:'“变卦”的反义词是（　　）', opts:['约定','说到做到','生气','分开'], ans:1, why:'变卦 = going back on your word; 说到做到 = keeping it.'},
+  {type:'mc', q:'在第一课《中国的家庭》中，长辈会怎么帮助晚辈？', opts:['帮子女带孩子','陪他们去上学','给他们买房子','教他们做饭'], ans:0, why:'From the text: 长辈帮助晚辈，例如帮子女带孩子。'},
+  {type:'mc', q:'在第一课中，长辈年纪大了以后，晚辈会做什么？', opts:['让他们独自生活','搬得更远','陪他们去看病、照看他们','不再见面'], ans:2, why:'From the text: 我们就陪他们去看病，照看他们。 This is 孝顺 in practice.'},
+  {type:'mc', q:'在第一课中，小辈和长辈一般不住在一起，原因是什么？', opts:['他们不喜欢见面','他们各自有不同的生活方式','房子太小了','长辈搬走了'], ans:1, why:'From the text: 因为他们各自有不同的生活方式。'},
+  {type:'mc', q:'在第一课中，作者觉得长辈和小辈分开住（　　）', opts:['不好','挺好的，大家都有各自的空间','没感觉','应该住在一起'], ans:1, why:'From the text: 我觉得长辈和小辈分开住也挺好的。这样，大家都有各自的空间。'},
+  {type:'mc', q:'在第二课《我的哥哥》中，哥哥比“我”大几岁？', opts:['五岁','八岁','十岁','两岁'], ans:2, why:'From the text: 哥哥比我大十岁。'},
+  {type:'mc', q:'在第二课中，哥哥提醒“我”交朋友的时候要（　　）', opts:['要小心','要多交','不要交','要大方'], ans:0, why:'From the text: 他时常提醒我要好好儿读书，交朋友时要小心。'},
+  {type:'mc', q:'在第二课中，“我”有苦恼的时候会怎么做？', opts:['自己忍着','第一时间告诉哥哥','告诉老师','写在日记里'], ans:1, why:'From the text: 如果我有苦恼，我会第一时间告诉他。'},
+  {type:'mc', q:'在第二课中，“我”和哥哥吵架以后，问题是怎么解决的？', opts:['爸爸妈妈帮忙','及时沟通、谈心','谁也不理谁','等它自己过去'], ans:1, why:'From the text: 我们及时沟通、谈心，问题很容易就解决了。'},
+ ]},
+
+/* ─── CHECKPOINT 5 ─── */
+{type:'info', sec:'⑤ 阅读关 Reading', nav:'陷阱', navlbl:'The 3 traps',
+ tag:'Checkpoint 5 · What to know', h:'The three true/false traps', sh:'True/false questions are built the same way every time. Learn the three traps and you can check your answer instead of guessing.',
+ body:`<table class="tbl">
+  <tr><th>Trap</th><th>What it looks like</th><th>What to do</th></tr>
+  <tr><td class="w">Numbers</td><td class="n">The passage lists people or things; the question gives a total</td><td class="e">Stop and count on your fingers. Never answer from memory</td></tr>
+  <tr><td class="w">Direction</td><td class="n">The passage says A 比 B 大; the question says B 比 A 小</td><td class="e">Convert it first — these two say the same thing. Different wording ≠ false</td></tr>
+  <tr><td class="w">Absolute<br>words</td><td class="n">从来、都、全部、每天、一定</td><td class="e">Be suspicious. If the passage says 有时候, a question saying 从来 is false</td></tr>
+ </table>`,
+ tip:'<b>Order to answer in:</b> read the passage once without stopping → read the questions → go back and find the exact sentence for each question. Never answer a true/false question from memory of the passage.'},
+
+{type:'ex', sec:'', nav:'📖', navlbl:'Sample passage ×7',
+ tag:'Checkpoint 5 · Practice', h:'阅读理解 · Sample passage', sh:'',
+ warn:'⚠ <b>This passage is NOT the exam passage.</b> It was written for revision only. The real exam has a different passage about a different family. Do not memorise this text — practise the <b>method</b>: find the sentence, then answer.',
+ pre:`<div class="pass">
+  <p>我叫小明，今年十五岁。我家有五口人：爷爷、奶奶、爸爸、妈妈和我。我们住在一起，是一个大家庭。</p>
+  <p>爷爷奶奶年纪大了，身体不太好。爸爸妈妈工作很忙，所以周末我常常陪他们去看病。奶奶说我很孝顺，我听了心里很高兴。</p>
+  <p>我还有一个姑姑，她住得很远。姑姑比爸爸小三岁，通常一年回来两次，每次回来都给我带礼物。我和姑姑的关系很好，有苦恼的时候，我也喜欢跟她商量。</p>
+  <p>我觉得，一家人住在一起虽然热闹，但是各自也要有自己的空间。</p>
+ </div>`,
+ exs:[
+  {type:'tf', q:'小明家一共有五口人。', ans:'对', why:'NUMBER trap. Count them: 爷爷 1 + 奶奶 2 + 爸爸 3 + 妈妈 4 + 我 5.'},
+  {type:'tf', q:'爸爸比姑姑大三岁。', ans:'对', why:'DIRECTION trap. The passage says 姑姑比爸爸小三岁 — flipped around, it says exactly the same thing.'},
+  {type:'tf', q:'小明从来不跟姑姑说自己的苦恼。', ans:'错', why:'ABSOLUTE WORD trap — 从来不. The passage says 有苦恼的时候，我也喜欢跟她商量.'},
+  {type:'tf', q:'小明和爷爷奶奶住在一起。', ans:'对', why:'The passage says 我家有五口人：爷爷、奶奶、爸爸、妈妈和我。我们住在一起，是一个大家庭.'},
+  {type:'mc', q:'周末陪爷爷奶奶去看病的是谁？', opts:['爸爸','妈妈','小明','姑姑'], ans:2, why:'爸爸妈妈工作很忙，所以周末我常常陪他们去看病 — 我 = 小明.'},
+  {type:'mc', q:'姑姑通常多久回来一次？', opts:['一个月一次','一年两次','一年一次','从来不回来'], ans:1, why:'姑姑通常一年回来两次。'},
+  {type:'mc', q:'小明觉得一家人住在一起怎么样？', opts:['不好，太吵了','热闹，但各自也要有自己的空间','没有意见','应该分开住'], ans:1, why:'虽然热闹，但是各自也要有自己的空间 — he sees both sides.'},
+ ]},
+
+/* ─── QUICK REF ─── */
+{type:'info', sec:'速查 Quick reference', nav:'📋', navlbl:'Word list · L1',
+ tag:'Quick reference · Lesson 1', h:'第一课《中国的家庭》', sh:'23 words. If you cannot say what one of these means, go back to the Lesson 1 text and find it.',
+ body:`<table class="tbl vt"><tr><th>词</th><th>拼音</th><th>Meaning</th></tr>
+  <tr><td class="w">通常</td><td class="p">tōng cháng</td><td class="n">usually; normally</td></tr>
+  <tr><td class="w">代</td><td class="p">dài</td><td class="n">generation</td></tr>
+  <tr><td class="w">这样</td><td class="p">zhè yàng</td><td class="n">like this; such</td></tr>
+  <tr><td class="w">长辈</td><td class="p">zhǎng bèi</td><td class="n">the older generation</td></tr>
+  <tr><td class="w">晚辈</td><td class="p">wǎn bèi</td><td class="n">the younger generation</td></tr>
+  <tr><td class="w">小辈</td><td class="p">xiǎo bèi</td><td class="n">younger family member (spoken)</td></tr>
+  <tr><td class="w">例如</td><td class="p">lì rú</td><td class="n">for example (written)</td></tr>
+  <tr><td class="w">子女</td><td class="p">zǐ nǚ</td><td class="n">children (sons and daughters)</td></tr>
+  <tr><td class="w">带</td><td class="p">dài</td><td class="n">to bring up; to look after (a child)</td></tr>
+  <tr><td class="w">孝顺</td><td class="p">xiào shùn</td><td class="n">to respect and care for one's elders</td></tr>
+  <tr><td class="w">照顾</td><td class="p">zhào gù</td><td class="n">to take care of</td></tr>
+  <tr><td class="w">照看</td><td class="p">zhào kàn</td><td class="n">to look after; to watch over</td></tr>
+  <tr><td class="w">如今</td><td class="p">rú jīn</td><td class="n">nowadays; at present</td></tr>
+  <tr><td class="w">各自</td><td class="p">gè zì</td><td class="n">each; one's own</td></tr>
+  <tr><td class="w">方式</td><td class="p">fāng shì</td><td class="n">way; manner; style</td></tr>
+  <tr><td class="w">还是</td><td class="p">hái shi</td><td class="n">still (nothing has changed)</td></tr>
+  <tr><td class="w">以…为例</td><td class="p">yǐ…wéi lì</td><td class="n">taking … as an example</td></tr>
+  <tr><td class="w">年纪</td><td class="p">nián jì</td><td class="n">age (of a person)</td></tr>
+  <tr><td class="w">陪</td><td class="p">péi</td><td class="n">to accompany; to go with</td></tr>
+  <tr><td class="w">看病</td><td class="p">kàn bìng</td><td class="n">to see a doctor</td></tr>
+  <tr><td class="w">分开</td><td class="p">fēn kāi</td><td class="n">to separate; apart</td></tr>
+  <tr><td class="w">堂兄弟姐妹</td><td class="p">táng xiōng dì jiě mèi</td><td class="n">cousins on father's side</td></tr>
+  <tr><td class="w">表兄弟姐妹</td><td class="p">biǎo xiōng dì jiě mèi</td><td class="n">cousins on mother's side</td></tr>
+ </table>`},
+
+{type:'info', sec:'', nav:'📋', navlbl:'Word list · L2',
+ tag:'Quick reference · Lesson 2', h:'第二课《我的哥哥》', sh:'27 words. The orange ones are also your 12 character blocks for Section 1.',
+ body:`<table class="tbl vt"><tr><th>词</th><th>拼音</th><th>Meaning</th></tr>
+  <tr><td class="w">生气</td><td class="p">shēng qì</td><td class="n">to get angry</td></tr>
+  <tr><td class="w">说好</td><td class="p">shuō hǎo</td><td class="n">to agree on (casually)</td></tr>
+  <tr><td class="w">约定</td><td class="p">yuē dìng</td><td class="n">to promise; an agreement</td></tr>
+  <tr><td class="w">说到做到</td><td class="p">shuō dào zuò dào</td><td class="n">to keep one's word</td></tr>
+  <tr><td class="w">变卦</td><td class="p">biàn guà</td><td class="n">to go back on one's word</td></tr>
+  <tr><td class="w">负责</td><td class="p">fù zé</td><td class="n">to be responsible for</td></tr>
+  <tr><td class="w">负面</td><td class="p">fù miàn</td><td class="n">negative (influence)</td></tr>
+  <tr><td class="w">正面</td><td class="p">zhèng miàn</td><td class="n">positive (influence)</td></tr>
+  <tr><td class="w">积极</td><td class="p">jī jí</td><td class="n">proactive (attitude)</td></tr>
+  <tr><td class="w">消极</td><td class="p">xiāo jí</td><td class="n">passive; negative (attitude)</td></tr>
+  <tr><td class="w">管</td><td class="p">guǎn</td><td class="n">to discipline; to be in charge of</td></tr>
+  <tr><td class="w">好像</td><td class="p">hǎo xiàng</td><td class="n">seems to be; is like</td></tr>
+  <tr><td class="w">读书</td><td class="p">dú shū</td><td class="n">to study; to read aloud</td></tr>
+  <tr><td class="w">好好儿</td><td class="p">hǎo hāor</td><td class="n">properly; seriously</td></tr>
+  <tr><td class="w">小心</td><td class="p">xiǎo xīn</td><td class="n">careful</td></tr>
+  <tr><td class="w">粗心</td><td class="p">cū xīn</td><td class="n">careless</td></tr>
+  <tr><td class="w">关系</td><td class="p">guān xi</td><td class="n">relationship</td></tr>
+  <tr><td class="w">兄长</td><td class="p">xiōng zhǎng</td><td class="n">elder brother (formal)</td></tr>
+  <tr><td class="w">知心</td><td class="p">zhī xīn</td><td class="n">close; understanding (知心朋友)</td></tr>
+  <tr><td class="w">商量</td><td class="p">shāng liang</td><td class="n">to discuss with</td></tr>
+  <tr><td class="w">苦恼</td><td class="p">kǔ nǎo</td><td class="n">worries; troubled</td></tr>
+  <tr><td class="w">吵架</td><td class="p">chǎo jià</td><td class="n">to quarrel</td></tr>
+  <tr><td class="w">及时</td><td class="p">jí shí</td><td class="n">in time; promptly</td></tr>
+  <tr><td class="w">沟通</td><td class="p">gōu tōng</td><td class="n">to communicate</td></tr>
+  <tr><td class="w">谈心</td><td class="p">tán xīn</td><td class="n">to have a heart-to-heart talk</td></tr>
+  <tr><td class="w">解决</td><td class="p">jiě jué</td><td class="n">to solve</td></tr>
+  <tr><td class="w">幸运</td><td class="p">xìng yùn</td><td class="n">lucky; fortunate</td></tr>
+ </table>`,
+ tip:'<b>The night before the exam, do only this:</b> write the 12 character blocks from pinyin · say the 10 antonym pairs out loud · read the 11 sentence patterns once. Then sleep.'},
+
+];
+
+/* ══════════ ENGINE ══════════ */
+let cur=0;
+const st={};  /* per-slide answer state */
+
+function byid(id){return document.getElementById(id);}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+
+function buildNav(){
+  let h='',lastSec=null;
+  SLIDES.forEach((s,i)=>{
+    if(i===0){h+='<div class="sb-sec">Start</div><div class="sb-item" data-s="0"><span class="sb-char">📕</span><span>Cover</span></div>';return;}
+    if(s.sec&&s.sec!==lastSec){h+='<div class="sb-sec">'+s.sec+'</div>';lastSec=s.sec;}
+    h+='<div class="sb-item" data-s="'+i+'"><span class="sb-char">'+(s.nav||'·')+'</span><span>'+(s.navlbl||'')+'</span></div>';
+  });
+  byid('sb-nav').innerHTML=h;
+  byid('sb-nav').querySelectorAll('.sb-item').forEach(el=>{
+    el.onclick=()=>jump(parseInt(el.dataset.s));
+  });
+}
+
+function render(){
+  const s=SLIDES[cur];
+  let h='';
+  if(s.type==='title')h=rTitle();
+  else if(s.type==='info')h=rInfo(s);
+  else if(s.type==='text')h=rText(s);
+  else if(s.type==='dictation')h=rDict(s);
+  else if(s.type==='ex')h=rEx(s);
+  byid('slide').innerHTML=h;
+  byid('slide').scrollTop=0;
+  byid('ctr').textContent=(cur+1)+' / '+SLIDES.length;
+  byid('bprev').disabled=cur===0;
+  byid('bnext').disabled=cur===SLIDES.length-1;
+  document.querySelectorAll('.sb-item').forEach(el=>el.classList.toggle('active',parseInt(el.dataset.s)===cur));
+  if(s.type==='ex')restoreEx(s);
+}
+
+function rTitle(){return`
+  <div style="padding-top:40px">
+  <div class="p-tag">G10 · 26-27 · First Term MT</div>
+  <div class="t-h1">MT 复习手册</div>
+  <div class="t-sub">Exam Revision Handbook &nbsp;·&nbsp; 第一课《中国的家庭》 ＋ 第二课《我的哥哥》</div>
+  <div class="t-chips">
+    <span class="t-chip">5 checkpoints</span>
+    <span class="t-chip">49 questions ＋ exam mode</span>
+    <span class="t-chip">Both texts with pinyin</span>
+    <span class="t-chip">Answers included</span>
+    <span class="t-chip">Works offline</span>
+  </div>
+  <div class="tip">Work through the checkpoints in order. Each one shows you <b>what to know</b> first, then gives you <b>practice questions with answers</b> so you can check yourself.</div>
+  <div class="t-hint" style="margin-top:20px">Press <kbd>→</kbd> to begin &nbsp;·&nbsp; use the sidebar to jump to any section</div>
+  </div>`;}
+
+function rHead(s){
+  return`<div class="p-tag">${s.tag}</div><div class="p-h">${s.h}</div>`+
+         (s.sh?`<div class="p-sh">${s.sh}</div>`:'<div style="height:12px"></div>');
+}
+
+function rInfo(s){
+  return rHead(s)+
+    (s.warn?`<div class="warn">${s.warn}</div>`:'')+
+    `<div class="p-body">${s.body}</div>`+
+    (s.tip?`<div class="tip">${s.tip}</div>`:'')+
+    (s.note?`<div class="note">${s.note}</div>`:'');
+}
+
+function rText(s){
+  const items=s.sents.map((t,i)=>`
+    <div class="sent">
+      <span class="sent-n">${i+1}</span>
+      <div class="sent-cn">${t.cn}</div>
+      <div class="sent-py">${t.py}</div>
+      <div class="sent-en">${t.en}</div>
+    </div>`).join('');
+  return rHead(s)+items+(s.note?`<div class="note">${s.note}</div>`:'');
+}
+
+function rDict(s){
+  const items=s.items.map((it,i)=>`
+    <div class="dict">
+      <div class="dict-n">Sentence ${i+1}</div>
+      <div class="dict-py">${it.py}</div>
+      <div class="dict-line"></div>
+      <div class="dict-a" id="D${i}">${it.cn}</div>
+    </div>`).join('');
+  return rHead(s)+items+
+    `<div class="btnrow">
+      <button class="cbtn" onclick="dictAll(1)">Show all answers</button>
+      <button class="cbtn gh" onclick="dictAll(0)">Hide</button>
+    </div>`+
+    (s.note?`<div class="note">${s.note}</div>`:'');
+}
+function dictAll(on){
+  document.querySelectorAll('.dict-a').forEach(el=>el.classList.toggle('on',!!on));
+}
+
+/* ── practice engine: All-questions mode vs Exam mode (random draw per round) ── */
+const ui={};
+function uiFor(i){
+  const s=SLIDES[i];
+  if(!ui[i])ui[i]={mode:'all',round:1,view:s.exs.map((_,k)=>k)};
+  return ui[i];
+}
+function shuf(a){a=a.slice();for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));const t=a[k];a[k]=a[j];a[j]=t;}return a;}
+function uniq(a){return a.filter(function(v,j){return a.indexOf(v)===j;});}
+
+function buildView(i){
+  const s=SLIDES[i],u=ui[i];
+  if(u.mode==='all'){u.view=s.exs.map((_,k)=>k);u.bank=s.bank;u.mopts=s.mopts;return;}
+  const n=Math.min(s.examN||s.exs.length,s.exs.length);
+  u.view=shuf(s.exs.map((_,k)=>k)).slice(0,n).sort(function(x,y){return x-y;});
+  const ans=uniq(u.view.map(k=>s.exs[k].ans));
+  /* real paper gives only a few spare options — mirror that ratio, don't make practice harder than the exam */
+  if(s.bank){
+    const need=Math.max(0,(s.bankTotal||ans.length+1)-ans.length);
+    u.bank=shuf(ans.concat(shuf(s.bank.filter(w=>ans.indexOf(w)<0)).slice(0,need)));
+  }else u.bank=s.bank;
+  if(s.mopts){
+    const need=Math.max(0,(s.moptsTotal||ans.length+3)-ans.length);
+    u.mopts=shuf(ans.concat(shuf(s.mopts.filter(w=>ans.indexOf(w)<0)).slice(0,need)));
+  }else u.mopts=s.mopts;
+}
+function setMode(m){
+  const u=uiFor(cur);
+  if(u.mode===m)return;              /* clicking the active mode must not wipe your answers */
+  u.mode=m;u.round=1;st['s'+cur]={};buildView(cur);render();
+}
+function newRound(){
+  const u=uiFor(cur);
+  u.round++;st['s'+cur]={};buildView(cur);render();
+}
+function showHint(i){
+  const h=byid('H'+i),b=byid('HB'+i);
+  if(h)h.classList.add('on');
+  if(b)b.classList.add('gone');
+}
+
+function rEx(s){
+  const key='s'+cur;
+  if(!st[key])st[key]={};
+  const u=uiFor(cur);
+  let h=rHead(s);
+  if(s.warn)h+=`<div class="warn">${s.warn}</div>`;
+  if(s.instr)h+=`<div class="instr">${s.instr}</div>`;
+  if(s.examN&&s.examN<s.exs.length){
+    h+=`<div class="modebar">
+      <span class="mlbl">Mode</span>
+      <button class="mbtn ${u.mode==='all'?'on':''}" onclick="setMode('all')">All ${s.exs.length} questions</button>
+      <button class="mbtn ${u.mode==='exam'?'on':''}" onclick="setMode('exam')">Exam mode · ${s.examN} questions</button>
+      ${u.mode==='exam'?`<button class="mbtn" onclick="newRound()">↻ New round</button><span class="rnd">Round ${u.round} · drawn at random</span>`:'<span class="rnd">Work through everything once, then switch to Exam mode</span>'}
+    </div>`;
+  }
+  if(s.pre)h+=s.pre+'<div class="para-lbl">Questions</div>';
+  if(s.bank){
+    const bk=u.bank||s.bank;
+    const lbl=u.mode==='exam'
+      ? `Word bank · ${bk.length} words for ${u.view.length} questions — the real paper gives you fewer, so this is harder on purpose`
+      : 'Word bank — each word is used once';
+    h+=`<div class="bank"><span class="bank-l">${lbl}</span>`+
+      bk.map(w=>`<span class="bank-w">${w}</span>`).join('<span style="color:var(--txt2)">·</span>')+`</div>`;
+  }
+  if(s.mopts&&u.mode==='exam')h+=`<div class="bank"><span class="bank-l">Options · ${(u.mopts||[]).length} for ${u.view.length} questions — the real paper gives you fewer, so this is harder on purpose</span>`+
+    (u.mopts||[]).map(w=>`<span class="bank-w">${w}</span>`).join('<span style="color:var(--txt2)">·</span>')+`</div>`;
+  h+=u.view.map((pi,di)=>rOne(s.exs[pi],di,s,u)).join('');
+  h+=`<div class="btnrow">
+      <button class="cbtn" onclick="checkAll()">Check answers</button>
+      <button class="cbtn gh" onclick="resetAll()">Clear</button>
+      <span class="score" id="SCORE"></span>
+    </div>`;
+  if(s.note)h+=`<div class="note">${s.note}</div>`;
+  return h;
+}
+
+function rOne(e,i,s,u){
+  let body='';
+  if(e.type==='mc'){
+    body=`<div class="ex-q">${e.q}</div><div class="opts">`+
+      e.opts.map((o,j)=>`<div class="opt" id="O${i}_${j}" onclick="pick(${i},${j})"><span class="ol">${'ABCD'[j]}</span><span>${o}</span></div>`).join('')+
+      `</div>`;
+  }else if(e.type==='fill'){
+    body=`<div class="ex-q">${e.q}</div>
+      <input class="fin" id="F${i}" oninput="mark(${i})" placeholder="answer">
+      ${e.hint?`<div><span class="hintbtn" id="HB${i}" onclick="showHint(${i})">💡 Show hint</span><div class="hinttext" id="H${i}">💡 ${e.hint}</div></div>`:''}`;
+  }else if(e.type==='match'){
+    const opts=(((u&&u.mopts)||s.mopts)||[]).map(o=>`<option value="${o}">${o}</option>`).join('');
+    body=`<div class="mrow" style="border:none;padding:0">
+      <span class="mw">${e.w}</span><span style="color:var(--txt2)">↔</span>
+      <select class="msel" id="M${i}" onchange="mark(${i})"><option value="">— choose —</option>${opts}</select>
+    </div>`;
+  }else if(e.type==='tf'){
+    body=`<div class="ex-q">${e.q}</div><div class="tfb">
+      <button class="tfbtn" id="T${i}_0" onclick="tf(${i},'对')">对 True</button>
+      <button class="tfbtn" id="T${i}_1" onclick="tf(${i},'错')">错 False</button>
+    </div>`;
+  }else if(e.type==='reorder'){
+    body=`<div class="ans" id="A${i}"><span class="plbl">Your sentence</span></div>
+      <div class="pool" id="P${i}"><span class="plbl">Words</span></div>`;
+  }
+  return`<div class="ex"><div class="ex-n">${e.type==='match'?'Match':'Question'} ${i+1}</div>${body}<div class="fb" id="FB${i}"></div></div>`;
+}
+
+function restoreEx(s){
+  const u=uiFor(cur);
+  u.view.forEach((pi,di)=>{ if(s.exs[pi].type==='reorder')initRe(di,s.exs[pi]); });
+}
+function initRe(i,e){
+  const key='s'+cur;
+  if(!st[key][i])st[key][i]={pool:e.words.slice(),ans:[]};
+  drawRe(i);
+}
+function drawRe(i){
+  const d=st['s'+cur][i];
+  const p=byid('P'+i),a=byid('A'+i);
+  if(!p||!a||!d)return;
+  p.innerHTML='<span class="plbl">Words</span>'+d.pool.map((w,j)=>`<span class="chip" onclick="reTake(${i},${j})">${w}</span>`).join('');
+  a.innerHTML='<span class="plbl">Your sentence</span>'+d.ans.map((w,j)=>`<span class="chip" onclick="rePut(${i},${j})">${w}</span>`).join('');
+}
+function reTake(i,j){const d=st['s'+cur][i];d.ans.push(d.pool.splice(j,1)[0]);drawRe(i);}
+function rePut(i,j){const d=st['s'+cur][i];d.pool.push(d.ans.splice(j,1)[0]);drawRe(i);}
+
+function exAt(i){const s=SLIDES[cur];return s.exs[uiFor(cur).view[i]];}
+
+function pick(i,j){
+  st['s'+cur][i]=j;
+  exAt(i).opts.forEach((_,k)=>byid('O'+i+'_'+k).classList.toggle('sel',k===j));
+  clearMark(i);
+}
+function tf(i,v){
+  st['s'+cur][i]=v;
+  byid('T'+i+'_0').classList.toggle('sel',v==='对');
+  byid('T'+i+'_1').classList.toggle('sel',v==='错');
+  clearMark(i);
+}
+function mark(i){clearMark(i);}
+function clearMark(i){
+  const fb=byid('FB'+i);if(fb){fb.className='fb';fb.innerHTML='';}
+  ['F','M'].forEach(p=>{const el=byid(p+i);if(el)el.classList.remove('ok','no');});
+  const a=byid('A'+i);if(a)a.classList.remove('ok','no');
+  const sc=byid('SCORE');if(sc)sc.className='score';
+}
+
+function checkAll(){
+  const s=SLIDES[cur],state=st['s'+cur],u=uiFor(cur);
+  let right=0;const total=u.view.length;
+  u.view.forEach((pi,i)=>{
+    const e=s.exs[pi];
+    let ok=false;
+    if(e.type==='mc'){
+      const v=state[i];ok=(v===e.ans);
+      e.opts.forEach((_,k)=>{
+        const el=byid('O'+i+'_'+k);el.classList.remove('ok','no');
+        if(k===e.ans)el.classList.add('ok');
+        else if(k===v)el.classList.add('no');
+      });
+    }else if(e.type==='fill'){
+      const el=byid('F'+i);const given=(el.value||'').trim();
+      ok=accepts(e).indexOf(given)>=0;
+      el.classList.toggle('ok',ok);el.classList.toggle('no',!ok);
+    }else if(e.type==='match'){
+      const el=byid('M'+i);ok=accepts(e).indexOf(el.value)>=0;
+      el.classList.toggle('ok',ok);el.classList.toggle('no',!ok);
+    }else if(e.type==='tf'){
+      ok=(state[i]||'')===e.ans;
+      byid('T'+i+'_0').classList.remove('ok','no');
+      byid('T'+i+'_1').classList.remove('ok','no');
+      const ci=e.ans==='对'?0:1;
+      byid('T'+i+'_'+ci).classList.add('ok');
+      if(!ok&&state[i])byid('T'+i+'_'+(ci?0:1)).classList.add('no');
+    }else if(e.type==='reorder'){
+      const d=state[i]||{ans:[]};const given=d.ans.join('');
+      ok=accepts(e).map(x=>x.replace(/\s/g,'')).indexOf(given)>=0;
+      const a=byid('A'+i);a.classList.toggle('ok',ok);a.classList.toggle('no',!ok);
+    }
+    if(ok)right++;
+    const fb=byid('FB'+i);
+    const alt=(e.alts&&e.alts.length)?' &nbsp;<span style="opacity:.8">Also accepted: <b>'+e.alts.join('</b> / <b>')+'</b></span>':'';
+    if(ok)fb.className='fb ok',fb.innerHTML='✓ Correct'+(e.why?' — '+e.why:'')+alt;
+    else fb.className='fb no',fb.innerHTML='✗ Answer: <b>'+e.ans+'</b>'+(e.why?' — '+e.why:'')+alt;
+  });
+  const sc=byid('SCORE');
+  sc.className='score on '+(right===total?'good':'mid');
+  sc.textContent=right===total
+    ?('All '+total+' correct'+(u.mode==='exam'?' — try another round':' — well done!'))
+    :(right+' / '+total+' correct — read the red notes, then try again');
+}
+function accepts(e){return [e.ans].concat(e.alts||[]);}
+
+function resetAll(){st['s'+cur]={};render();}
+
+function toggleSb(v){
+  const sb=byid('sb'),o=byid('ovl');
+  const open=(v===undefined)?!sb.classList.contains('open'):v;
+  sb.classList.toggle('open',open); o.classList.toggle('on',open);
+}
+function go(d){const n=cur+d;if(n<0||n>=SLIDES.length)return;cur=n;render();}
+function jump(i){if(i<0||i>=SLIDES.length)return;cur=i;render();toggleSb(false);}
+
+document.addEventListener('keydown',e=>{
+  const t=e.target.tagName;
+  if(t==='INPUT'||t==='TEXTAREA'||t==='SELECT')return;
+  if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(1);}
+  if(e.key==='ArrowLeft'){e.preventDefault();go(-1);}
+});
+
+buildNav();render();
+</script>
+</body>
+</html>
