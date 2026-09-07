@@ -652,8 +652,7 @@ function dictAll(on){
 /* ── practice engine: All-questions mode vs Exam mode (random draw per round) ── */
 const ui={};
 function uiFor(i){
-  const s=SLIDES[i];
-  if(!ui[i])ui[i]={mode:'all',round:1,view:s.exs.map((_,k)=>k)};
+  if(!ui[i]){ui[i]={mode:'all',round:1};buildView(i);}
   return ui[i];
 }
 function shuf(a){a=a.slice();for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));const t=a[k];a[k]=a[j];a[j]=t;}return a;}
@@ -661,7 +660,12 @@ function uniq(a){return a.filter(function(v,j){return a.indexOf(v)===j;});}
 
 function buildView(i){
   const s=SLIDES[i],u=ui[i];
-  if(u.mode==='all'){u.view=s.exs.map((_,k)=>k);u.bank=s.bank;u.mopts=s.mopts;return;}
+  if(u.mode==='all'){
+    u.view=s.exs.map((_,k)=>k);
+    u.bank=s.bank?shuf(s.bank):s.bank;
+    u.mopts=s.mopts?shuf(s.mopts):s.mopts;
+    return;
+  }
   const n=Math.min(s.examN||s.exs.length,s.exs.length);
   u.view=shuf(s.exs.map((_,k)=>k)).slice(0,n).sort(function(x,y){return x-y;});
   const ans=uniq(u.view.map(k=>s.exs[k].ans));
